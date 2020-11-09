@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.lemont.songshower.dao.DZSongArtistMapper">
+  <resultMap id="BaseResultMap" type="cn.com.lemont.songshower.VO.DZSongArtistVO">
+    <id column="uuid" jdbcType="VARCHAR" property="uuid" />
+    <result column="song_id" jdbcType="INTEGER" property="songId" />
+    <result column="artist_id" jdbcType="INTEGER" property="artistId" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from dz_song_artist
+    where uuid = #{uuid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="cn.com.lemont.songshower.VO.DZSongArtistVO">
+    insert into dz_song_artist (uuid, song_id, artist_id
+      )
+    values (#{uuid,jdbcType=VARCHAR}, #{songId,jdbcType=INTEGER}, #{artistId,jdbcType=INTEGER}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.com.lemont.songshower.VO.DZSongArtistVO">
+    update dz_song_artist
+    set song_id = #{songId,jdbcType=INTEGER},
+      artist_id = #{artistId,jdbcType=INTEGER}
+    where uuid = #{uuid,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select uuid, song_id, artist_id
+    from dz_song_artist
+    where uuid = #{uuid,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select uuid, song_id, artist_id
+    from dz_song_artist
+  </select>
+</mapper>

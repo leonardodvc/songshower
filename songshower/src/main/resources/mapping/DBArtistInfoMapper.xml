@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.lemont.songshower.dao.DBArtistInfoMapper">
+  <resultMap id="BaseResultMap" type="cn.com.lemont.songshower.VO.DBArtistInfoVO">
+    <id column="artist_id" jdbcType="INTEGER" property="artistId" />
+    <result column="artist_name" jdbcType="VARCHAR" property="artistName" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from db_artist_info
+    where artist_id = #{artistId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.com.lemont.songshower.VO.DBArtistInfoVO">
+    insert into db_artist_info (artist_id, artist_name)
+    values (#{artistId,jdbcType=INTEGER}, #{artistName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertAndGetId" parameterType="cn.com.lemont.songshower.VO.DBArtistInfoVO">
+    <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="artistId">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into db_artist_info (artist_id, artist_name)
+    values (#{artistId,jdbcType=INTEGER}, #{artistName,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.com.lemont.songshower.VO.DBArtistInfoVO">
+    update db_artist_info
+    set artist_name = #{artistName,jdbcType=VARCHAR}
+    where artist_id = #{artistId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select artist_id, artist_name
+    from db_artist_info
+    where artist_id = #{artistId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByArtistName" resultMap="BaseResultMap">
+    select artist_id, artist_name
+    from db_artist_info
+    where artist_name = #{artistName,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select artist_id, artist_name
+    from db_artist_info
+  </select>
+</mapper>

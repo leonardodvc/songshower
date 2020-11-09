@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.lemont.songshower.dao.DBSongInfoMapper">
+  <resultMap id="BaseResultMap" type="cn.com.lemont.songshower.VO.DBSongInfoVO">
+    <id column="song_id" jdbcType="INTEGER" property="songId" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="album" jdbcType="VARCHAR" property="album" />
+    <result column="artist_name" jdbcType="VARCHAR" property="artist" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from db_song_info
+    where song_id = #{songId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.com.lemont.songshower.VO.DBSongInfoVO">
+    insert into db_song_info (song_id, title, album
+    )
+    values (#{songId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{album,jdbcType=VARCHAR}
+    )
+  </insert>
+  <insert id="insertAndGetId" parameterType="cn.com.lemont.songshower.VO.DBSongInfoVO">
+    <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="songId">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into db_song_info (song_id, title, album
+    )
+    values (#{songId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{album,jdbcType=VARCHAR}
+    )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.com.lemont.songshower.VO.DBSongInfoVO">
+    update db_song_info
+    set title = #{title,jdbcType=VARCHAR},
+      album = #{album,jdbcType=VARCHAR}
+    where song_id = #{songId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select song_id, title, album
+    from db_song_info
+    where song_id = #{songId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByTitleAlbum" resultMap="BaseResultMap">
+    select song_id, title, album
+    from db_song_info
+    where title = #{title,jdbcType=VARCHAR} and album = #{album,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select song_id, title, album
+    from db_song_info
+  </select>
+  <select id="selectByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    SELECT DISTINCT
+    s.song_id,
+    s.title,
+    s.album,
+    a.artist_name
+    FROM
+    db_song_info s,
+    db_artist_info a,
+    dz_song_artist sa,
+    dz_user_song us
+    WHERE
+    us.user_id = #{userId,jdbcType=INTEGER}
+    AND us.song_id = s.song_id
+    AND s.song_id = sa.song_id
+    AND sa.artist_id = a.artist_id
+  </select>
+  <select id="selectByUserIdAndSongId" resultMap="BaseResultMap">
+    SELECT DISTINCT
+    s.song_id,
+    s.title,
+    s.album,
+    a.artist_name
+    FROM
+    db_song_info s,
+    db_artist_info a,
+    dz_song_artist sa,
+    dz_user_song us
+    WHERE
+    us.user_id = #{userId,jdbcType=INTEGER}
+    and s.song_id = #{songId,jdbcType=INTEGER}
+    AND us.song_id = s.song_id
+    AND s.song_id = sa.song_id
+    AND sa.artist_id = a.artist_id
+  </select>
+  <select id="selectByUserIdAndTitle" resultMap="BaseResultMap">
+    SELECT DISTINCT
+    s.song_id,
+    s.title,
+    s.album,
+    a.artist_name
+    FROM
+    db_song_info s,
+    db_artist_info a,
+    dz_song_artist sa,
+    dz_user_song us
+    WHERE
+    us.user_id = #{userId,jdbcType=INTEGER}
+    and s.title like concat('%',#{title,jdbcType=VARCHAR},'%')
+    AND us.song_id = s.song_id
+    AND s.song_id = sa.song_id
+    AND sa.artist_id = a.artist_id
+  </select>
+  <select id="selectByUserIdAndAlbum" resultMap="BaseResultMap">
+    SELECT DISTINCT
+    s.song_id,
+    s.title,
+    s.album,
+    a.artist_name
+    FROM
+    db_song_info s,
+    db_artist_info a,
+    dz_song_artist sa,
+    dz_user_song us
+    WHERE
+    us.user_id = #{userId,jdbcType=INTEGER}
+    and s.album like concat('%',#{album,jdbcType=VARCHAR},'%')
+    AND us.song_id = s.song_id
+    AND s.song_id = sa.song_id
+    AND sa.artist_id = a.artist_id
+  </select>
+  <select id="selectByUserIdAndArtist" resultMap="BaseResultMap">
+    SELECT DISTINCT
+    s.song_id,
+    s.title,
+    s.album,
+    a.artist_name
+    FROM
+    db_song_info s,
+    db_artist_info a,
+    dz_song_artist sa,
+    dz_user_song us
+    WHERE
+    us.user_id = #{userId,jdbcType=INTEGER}
+    AND us.song_id = s.song_id
+    AND s.song_id = sa.song_id
+    AND sa.artist_id = a.artist_id
+    AND s.song_id IN (
+    SELECT
+    dz.song_id
+    FROM
+    dz_song_artist dz,
+    db_artist_info ar
+    WHERE
+    dz.artist_id = ar.artist_id
+    AND ar.artist_name LIKE concat('%',#{artist,jdbcType=VARCHAR},'%'))
+  </select>
+  <select id="selectRandomSongIdByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    SELECT
+    a.song_id
+    FROM
+    db_song_info a,
+    dz_user_song b
+    WHERE
+    b.user_id = #{userId,jdbcType=INTEGER}
+    AND a.song_id = b.song_id
+    ORDER BY RAND() LIMIT 1
+  </select>
+</mapper>

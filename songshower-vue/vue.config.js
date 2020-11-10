@@ -17,7 +17,7 @@ module.exports = {
   // webpack-dev-server 相关配置
   devServer: {
     host: '0.0.0.0',
-    port: 8080,
+    port: 10002,
     https: false,
     hotOnly: false,
     // proxy: { //设置代理

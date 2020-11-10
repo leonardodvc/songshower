@@ -2,7 +2,7 @@ import axios from 'axios'
 import { MessageBox, Message } from 'element-ui'
 axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
 
-let baseURL = '/'
+let baseURL = 'http://81.70.158.7:20002'
 // 创建axios实例
 const service = axios.create({
   // axios中请求配置有baseURL选项，表示请求URL公共部分

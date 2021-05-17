@@ -46,6 +46,7 @@ public class SongController {
      * @Author Liutao
      * @History 修订历史（历次修订内容、修订人、修订时间等）
      */
+    @CrossOrigin
     @PostMapping(value = "/show")
     public List<DBSongInfoVO> queryByUser(@RequestParam(value = "username") String username, @RequestBody Map jsonMap) {
         if (PublicUtils.isNull(username)) {
@@ -95,7 +96,7 @@ public class SongController {
      */
     @RequestMapping("/import")
     public void importExcel() throws Exception {
-        final String userName = "";
+        final String userName = "xiaohuang";
         final String filePath = "C:\\Users\\shanq\\Desktop\\歌单\\小黄歌单.xlsx";
 
         if (PublicUtils.isNull(userName)) {

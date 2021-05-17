@@ -57,7 +57,8 @@ public class SongService {
      * @History 修订历史（历次修订内容、修订人、修订时间等）
      */
     public List<DBSongInfoVO> getAllSongByUserIdAndTitle(Integer userId, String title) {
-        List<DBSongInfoVO> songList = songInfoMapper.selectByUserIdAndTitle(userId,title);
+        String titleTemp = title.replace("%","\\%");
+        List<DBSongInfoVO> songList = songInfoMapper.selectByUserIdAndTitle(userId,titleTemp);
         List<DBSongInfoVO> resultList = this.getResultList(songList);
         return resultList;
     }
@@ -72,7 +73,8 @@ public class SongService {
      * @History 修订历史（历次修订内容、修订人、修订时间等）
      */
     public List<DBSongInfoVO> getAllSongByUserIdAndAlbum(Integer userId, String album) {
-        List<DBSongInfoVO> songList = songInfoMapper.selectByUserIdAndAlbum(userId,album);
+        String albumTemp = album.replace("%","\\%");
+        List<DBSongInfoVO> songList = songInfoMapper.selectByUserIdAndAlbum(userId,albumTemp);
         List<DBSongInfoVO> resultList = this.getResultList(songList);
         return resultList;
     }
@@ -87,7 +89,8 @@ public class SongService {
      * @History 修订历史（历次修订内容、修订人、修订时间等）
      */
     public List<DBSongInfoVO> getAllSongByUserIdAndArtist(Integer userId, String artist) {
-        List<DBSongInfoVO> songList = songInfoMapper.selectByUserIdAndArtist(userId,artist);
+        String artistTemp = artist.replace("%","\\%");
+        List<DBSongInfoVO> songList = songInfoMapper.selectByUserIdAndArtist(userId,artistTemp);
         List<DBSongInfoVO> resultList = this.getResultList(songList);
         return resultList;
     }

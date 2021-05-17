@@ -1,0 +1,15 @@
+server:
+  port: 20002
+
+spring:
+  datasource:
+    username: developer_liutao
+    password: Abcd1234+
+    url: jdbc:mysql://81.70.158.7:3306/SongsList?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis:
+  mapper-locations: classpath:mapping/*Mapper.xml
+  type-aliases-package: com.example.entity
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

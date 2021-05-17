@@ -154,4 +154,33 @@
     AND a.song_id = b.song_id
     ORDER BY RAND() LIMIT 1
   </select>
+  <select id="fenye">
+    SELECT DISTINCT
+    s.song_id,
+    s.title,
+    s.album,
+    a.artist_name
+    FROM
+    db_song_info s,
+    db_artist_info a,
+    dz_song_artist sa,
+    (
+    SELECT
+    s.song_id
+    FROM
+    db_song_info s,
+    dz_user_song us
+    WHERE
+    us.user_id = '1'
+    AND s.song_id = us.song_id
+    ORDER BY
+    s.song_id
+    LIMIT 0,
+    10
+    ) tmp
+    WHERE
+    tmp.song_id = s.song_id
+    AND s.song_id = sa.song_id
+    AND sa.artist_id = a.artist_id
+  </select>
 </mapper>
